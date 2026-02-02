@@ -31,7 +31,7 @@ INSTALL_COMMANDS=true
 INSTALL_AGENTS=true
 INSTALL_OPENCODE=false
 INSTALL_EXTERNAL=true
-BASE_URL="https://raw.githubusercontent.com/citypaul/.dotfiles"
+BASE_URL="https://raw.githubusercontent.com/RDCoached/ClaudeCodeWF"
 WEB_QUALITY_SKILLS_URL="https://raw.githubusercontent.com/addyosmani/web-quality-skills"
 
 # Parse arguments
