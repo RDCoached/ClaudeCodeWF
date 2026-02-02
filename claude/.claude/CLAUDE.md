@@ -31,6 +31,11 @@ I follow Test-Driven Development (TDD) with a strong emphasis on behavior-driven
 
 **Preferred Tools:**
 
+**Back End**
+- **Language**: C#, WebApi, EF Core, DotNet
+- **Testing**: xUnit, TestContainers
+
+**Front End**
 - **Language**: TypeScript (strict mode)
 - **Testing**: Jest/Vitest + React Testing Library
 - **State Management**: Prefer immutable patterns
