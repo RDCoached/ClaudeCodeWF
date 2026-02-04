@@ -4,7 +4,7 @@
 >
 > **Architecture:**
 > - **CLAUDE.md** (this file): Core philosophy + quick reference (~100 lines, always loaded)
-> - **Skills**: Detailed patterns loaded on-demand (tdd, testing, mutation-testing, test-design-reviewer, typescript-strict, functional, refactoring, expectations, planning, front-end-testing, react-testing)
+> - **Skills**: Detailed patterns loaded on-demand (38 total — see skill directories for full list. Core: tdd, testing, mutation-testing, test-design-reviewer, typescript-strict, functional, refactoring, expectations, planning, front-end-testing, react-testing. .NET: csharp-coding-standards, csharp-concurrency-patterns, csharp-type-design-performance, csharp-api-design, dotnet-project-structure, dotnet-package-management, dotnet-local-tools, dotnet-serialization, dotnet-slopwatch, microsoft-extensions-configuration, microsoft-extensions-dependency-injection, data-efcore-patterns, data-database-performance, aspnetcore-mjml-email-templates, testing-testcontainers, testing-snapshot-testing, testing-crap-analysis, testing-playwright-blazor, testing-verify-email-snapshots, playwright-ci-caching. IaC: terraform-skill. Web quality: accessibility, best-practices, core-web-vitals, performance, seo, web-quality-audit)
 > - **Agents**: Specialized subprocesses for verification and analysis
 >
 > **Previous versions:**

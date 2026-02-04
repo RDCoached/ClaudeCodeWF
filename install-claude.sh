@@ -33,6 +33,8 @@ INSTALL_OPENCODE=false
 INSTALL_EXTERNAL=true
 BASE_URL="https://raw.githubusercontent.com/RDCoached/ClaudeCodeWF"
 WEB_QUALITY_SKILLS_URL="https://raw.githubusercontent.com/addyosmani/web-quality-skills"
+DOTNET_SKILLS_URL="https://raw.githubusercontent.com/Aaronontheweb/dotnet-skills"
+TERRAFORM_SKILL_URL="https://raw.githubusercontent.com/antonbabenko/terraform-skill"
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do
@@ -166,6 +168,17 @@ mkdir -p ~/.claude/skills/front-end-testing ~/.claude/skills/react-testing ~/.cl
 if [[ "$INSTALL_EXTERNAL" == true ]]; then
   mkdir -p ~/.claude/skills/accessibility ~/.claude/skills/best-practices ~/.claude/skills/core-web-vitals
   mkdir -p ~/.claude/skills/performance ~/.claude/skills/seo ~/.claude/skills/web-quality-audit
+  mkdir -p ~/.claude/skills/aspnetcore-mjml-email-templates ~/.claude/skills/csharp-api-design
+  mkdir -p ~/.claude/skills/csharp-coding-standards ~/.claude/skills/csharp-concurrency-patterns
+  mkdir -p ~/.claude/skills/csharp-type-design-performance ~/.claude/skills/data-database-performance
+  mkdir -p ~/.claude/skills/data-efcore-patterns ~/.claude/skills/dotnet-local-tools
+  mkdir -p ~/.claude/skills/dotnet-package-management ~/.claude/skills/dotnet-project-structure
+  mkdir -p ~/.claude/skills/dotnet-serialization ~/.claude/skills/dotnet-slopwatch
+  mkdir -p ~/.claude/skills/microsoft-extensions-configuration ~/.claude/skills/microsoft-extensions-dependency-injection
+  mkdir -p ~/.claude/skills/playwright-ci-caching ~/.claude/skills/testing-crap-analysis
+  mkdir -p ~/.claude/skills/testing-playwright-blazor ~/.claude/skills/testing-snapshot-testing
+  mkdir -p ~/.claude/skills/testing-testcontainers ~/.claude/skills/testing-verify-email-snapshots
+  mkdir -p ~/.claude/skills/terraform-skill/references
 fi
 echo -e "${GREEN}✓${NC} Directories created"
 echo ""
@@ -240,6 +253,76 @@ if [[ "$INSTALL_EXTERNAL" == true && "$INSTALL_SKILLS" == true ]]; then
   echo ""
 fi
 
+# Install .NET skills (fetched from Aaronontheweb/dotnet-skills)
+if [[ "$INSTALL_EXTERNAL" == true && "$INSTALL_SKILLS" == true ]]; then
+  echo -e "${BLUE}Installing .NET skills...${NC}"
+  echo -e "${YELLOW}→${NC} Source: Aaronontheweb/dotnet-skills (Apache-2.0)"
+
+  # Map: "skill-name" "upstream-path"
+  # The upstream repo nests skills under categories: skills/<category>/<name>/SKILL.md
+  declare -A dotnet_skill_paths=(
+    ["aspnetcore-mjml-email-templates"]="aspnetcore/mjml-email-templates"
+    ["csharp-api-design"]="csharp/api-design"
+    ["csharp-coding-standards"]="csharp/coding-standards"
+    ["csharp-concurrency-patterns"]="csharp/concurrency-patterns"
+    ["csharp-type-design-performance"]="csharp/type-design-performance"
+    ["data-database-performance"]="data/database-performance"
+    ["data-efcore-patterns"]="data/efcore-patterns"
+    ["dotnet-local-tools"]="dotnet/local-tools"
+    ["dotnet-package-management"]="dotnet/package-management"
+    ["dotnet-project-structure"]="dotnet/project-structure"
+    ["dotnet-serialization"]="dotnet/serialization"
+    ["dotnet-slopwatch"]="dotnet/slopwatch"
+    ["microsoft-extensions-configuration"]="microsoft-extensions/configuration"
+    ["microsoft-extensions-dependency-injection"]="microsoft-extensions/dependency-injection"
+    ["playwright-ci-caching"]="playwright/ci-caching"
+    ["testing-crap-analysis"]="testing/crap-analysis"
+    ["testing-playwright-blazor"]="testing/playwright-blazor"
+    ["testing-snapshot-testing"]="testing/snapshot-testing"
+    ["testing-testcontainers"]="testing/testcontainers"
+    ["testing-verify-email-snapshots"]="testing/verify-email-snapshots"
+  )
+
+  for skill_name in "${!dotnet_skill_paths[@]}"; do
+    upstream_path="${dotnet_skill_paths[$skill_name]}"
+    backup_file ~/.claude/skills/"$skill_name"/SKILL.md
+    download_file \
+      "$DOTNET_SKILLS_URL/master/skills/$upstream_path/SKILL.md" \
+      ~/.claude/skills/"$skill_name"/SKILL.md \
+      "skills/$skill_name (.NET)"
+  done
+  echo ""
+fi
+
+# Install Terraform skill (fetched from antonbabenko/terraform-skill)
+if [[ "$INSTALL_EXTERNAL" == true && "$INSTALL_SKILLS" == true ]]; then
+  echo -e "${BLUE}Installing Terraform skill...${NC}"
+  echo -e "${YELLOW}→${NC} Source: antonbabenko/terraform-skill (Apache-2.0)"
+
+  backup_file ~/.claude/skills/terraform-skill/SKILL.md
+  download_file \
+    "$TERRAFORM_SKILL_URL/master/SKILL.md" \
+    ~/.claude/skills/terraform-skill/SKILL.md \
+    "skills/terraform-skill"
+
+  terraform_refs=(
+    "ci-cd-workflows.md"
+    "code-patterns.md"
+    "module-patterns.md"
+    "quick-reference.md"
+    "security-compliance.md"
+    "testing-frameworks.md"
+  )
+
+  for ref in "${terraform_refs[@]}"; do
+    download_file \
+      "$TERRAFORM_SKILL_URL/master/references/$ref" \
+      ~/.claude/skills/terraform-skill/references/"$ref" \
+      "skills/terraform-skill/references/$ref"
+  done
+  echo ""
+fi
+
 # Install commands (v3.0: slash commands)
 if [[ "$INSTALL_COMMANDS" == true ]]; then
   echo -e "${BLUE}Installing commands (slash commands)...${NC}"
@@ -272,6 +355,10 @@ if [[ "$INSTALL_AGENTS" == true ]]; then
     "pr-reviewer.md"
     "use-case-data-patterns.md"
     "progress-guardian.md"
+    "docfx-specialist.md"
+    "dotnet-benchmark-designer.md"
+    "dotnet-concurrency-specialist.md"
+    "dotnet-performance-analyst.md"
     "README.md"
   )
 
@@ -312,9 +399,11 @@ if [[ "$INSTALL_CLAUDE" == true ]]; then
 fi
 
 if [[ "$INSTALL_SKILLS" == true ]]; then
-  echo -e "  ${GREEN}✓${NC} skills/ (11 auto-discovered patterns: tdd, testing, mutation-testing, test-design-reviewer, typescript-strict, functional, refactoring, expectations, planning, front-end-testing, react-testing)"
+  echo -e "  ${GREEN}✓${NC} skills/ (11 core patterns: tdd, testing, mutation-testing, test-design-reviewer, typescript-strict, functional, refactoring, expectations, planning, front-end-testing, react-testing)"
   if [[ "$INSTALL_EXTERNAL" == true ]]; then
-    echo -e "  ${GREEN}✓${NC} skills/ (6 web quality patterns: accessibility, best-practices, core-web-vitals, performance, seo, web-quality-audit)"
+    echo -e "  ${GREEN}✓${NC} skills/ (6 web quality: accessibility, best-practices, core-web-vitals, performance, seo, web-quality-audit)"
+    echo -e "  ${GREEN}✓${NC} skills/ (20 .NET: csharp-*, dotnet-*, data-*, microsoft-extensions-*, aspnetcore-*, testing-*, playwright-*)"
+    echo -e "  ${GREEN}✓${NC} skills/ (1 IaC: terraform-skill)"
   fi
 fi
 
@@ -323,7 +412,7 @@ if [[ "$INSTALL_COMMANDS" == true ]]; then
 fi
 
 if [[ "$INSTALL_AGENTS" == true ]]; then
-  echo -e "  ${GREEN}✓${NC} agents/ (9 Claude Code agents + README)"
+  echo -e "  ${GREEN}✓${NC} agents/ (13 Claude Code agents + README)"
 fi
 
 if [[ "$INSTALL_OPENCODE" == true ]]; then
@@ -371,6 +460,12 @@ echo -e "    ${BLUE}https://github.com/kieran-ohara/dotfiles${NC}"
 echo ""
 echo -e "  • ${YELLOW}Andrea Laforgia${NC} - test-design-reviewer skill"
 echo -e "    ${BLUE}https://github.com/andlaf-ak/claude-code-agents${NC}"
+echo ""
+echo -e "  • ${YELLOW}Aaron O'Hara${NC} - .NET skills + agents (20 skills, 4 agents)"
+echo -e "    ${BLUE}https://github.com/Aaronontheweb/dotnet-skills${NC} (Apache-2.0)"
+echo ""
+echo -e "  • ${YELLOW}Anton Babenko${NC} - Terraform skill"
+echo -e "    ${BLUE}https://github.com/antonbabenko/terraform-skill${NC} (Apache-2.0)"
 echo ""
 echo -e "${BLUE}For help or issues:${NC}"
 echo -e "  ${YELLOW}https://github.com/citypaul/.dotfiles${NC}"
